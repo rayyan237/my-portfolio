@@ -1,0 +1,597 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Abdul Moiz - Creative Portfolio</title>
+    
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+    
+    <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
+    
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;600;700&family=Inter:wght@300;400;500&display=swap" rel="stylesheet">
+    
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+    <style>
+        /* --- 1. MODERN COLOR PALETTE (Slate & Teal) --- */
+        :root {
+            --bg-body: #0f172a;       /* Deep Slate Blue */
+            --bg-surface: #1e293b;    /* Lighter Slate */
+            --primary-teal: #2dd4bf;  /* Neon Teal */
+            --text-light: #f8fafc;    
+            --text-muted: #94a3b8;    
+        }
+
+        /* --- 2. GLOBAL STYLES --- */
+        html, body {
+            overflow-x: hidden; /* Fixes mobile horizontal scroll issue */
+            width: 100%;
+        }
+
+        body {
+            background-color: var(--bg-body);
+            color: var(--text-light);
+            font-family: 'Inter', sans-serif;
+        }
+
+        h1, h2, h3, h4, .navbar-brand {
+            font-family: 'Outfit', sans-serif;
+            font-weight: 700;
+        }
+
+        .text-teal { color: var(--primary-teal) !important; }
+        .text-muted { color: var(--text-muted) !important; }
+        .letter-spacing-2 { letter-spacing: 2px; }
+
+        /* --- 3. GLASSMORPHISM --- */
+        .glass {
+            background: rgba(30, 41, 59, 0.7);
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+            border: 1px solid rgba(255, 255, 255, 0.05);
+            box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.3);
+        }
+
+        /* --- 4. AMBIENT GLOWS --- */
+        .ambient-glow {
+            position: fixed;
+            width: 600px;
+            height: 600px;
+            background: radial-gradient(circle, rgba(45, 212, 191, 0.15) 0%, rgba(15, 23, 42, 0) 70%);
+            filter: blur(80px);
+            z-index: -1;
+            pointer-events: none;
+        }
+        .glow-1 { top: -200px; left: -200px; }
+        .glow-2 { bottom: -200px; right: -200px; }
+
+        /* --- 5. NAVBAR --- */
+        .navbar { padding: 1.2rem 0; transition: all 0.3s ease; }
+        
+        .navbar.scrolled {
+            background: rgba(15, 23, 42, 0.9);
+            backdrop-filter: blur(10px);
+            border-bottom: 1px solid rgba(255,255,255,0.05);
+            padding: 0.8rem 0;
+        }
+        
+        .nav-link { 
+            color: var(--text-light) !important; 
+            font-weight: 500; 
+            margin: 0 10px; 
+            transition: color 0.3s; 
+        }
+        .nav-link:hover, .nav-link.active { color: var(--primary-teal) !important; }
+
+        /* Mobile Menu Styling */
+        @media (max-width: 991px) {
+            .navbar-collapse {
+                background: rgba(15, 23, 42, 0.98); /* Slightly more opaque for readability */
+                backdrop-filter: blur(20px);
+                padding: 2rem;
+                border-radius: 16px;
+                margin-top: 1rem;
+                border: 1px solid rgba(255,255,255,0.1);
+                text-align: center;
+                box-shadow: 0 10px 30px rgba(0,0,0,0.5);
+                width: 100%; /* Ensure it stays within container */
+            }
+            .nav-item { margin-bottom: 15px; }
+            .nav-link { font-size: 1.1rem; padding: 10px 0; }
+        }
+
+        /* --- 6. BUTTONS --- */
+        .btn-primary {
+            background: var(--primary-teal);
+            border: 2px solid var(--primary-teal);
+            color: #0f172a; 
+            font-weight: 700;
+            padding: 10px 25px;
+            border-radius: 50px;
+            transition: all 0.3s ease-in-out;
+        }
+        
+        .btn-primary:hover {
+            background-color: transparent;
+            color: var(--primary-teal);   
+            border-color: var(--primary-teal);
+            box-shadow: none;
+            transform: translateY(-2px);
+        }
+
+        .btn-outline-light:hover {
+            background-color: var(--text-light);
+            color: var(--bg-body);
+        }
+
+        .form-control {
+            background: rgba(30, 41, 59, 0.5);
+            border: 1px solid rgba(255,255,255,0.1);
+            color: #fff;
+            border-radius: 12px;
+            padding: 12px 20px;
+        }
+        .form-control:focus {
+            background: rgba(30, 41, 59, 0.8);
+            border-color: var(--primary-teal);
+            box-shadow: none;
+            color: #fff;
+        }
+        .form-control::placeholder { color: #64748b; }
+
+        /* --- 7. HEXAGON PROFILE (INTENSE GLOW) --- */
+        .hexagon-outer {
+            width: 100%;
+            max-width: 450px;
+            aspect-ratio: 1/1.1;
+            position: relative;
+            margin: 0 auto;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            background: var(--primary-teal);
+            clip-path: polygon(50% 0%, 100% 25%, 100% 75%, 50% 100%, 0% 75%, 0% 25%);
+            
+            /* BOOSTED GLOW VISIBILITY */
+            filter: drop-shadow(0 0 20px var(--primary-teal)) drop-shadow(0 0 40px rgba(45, 212, 191, 0.6));
+            
+            animation: neonPulse 3s infinite alternate;
+        }
+
+        @keyframes neonPulse {
+            0% { filter: drop-shadow(0 0 20px var(--primary-teal)) drop-shadow(0 0 30px rgba(45, 212, 191, 0.4)); }
+            100% { filter: drop-shadow(0 0 25px var(--primary-teal)) drop-shadow(0 0 60px rgba(45, 212, 191, 0.8)); }
+        }
+
+        .hexagon-inner {
+            width: 96%; 
+            height: 96%;
+            background: var(--bg-surface);
+            clip-path: polygon(50% 0%, 100% 25%, 100% 75%, 50% 100%, 0% 75%, 0% 25%);
+            overflow: hidden;
+        }
+
+        .hexagon-inner img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        .floating-badge {
+            position: absolute;
+            background: rgba(15, 23, 42, 0.95);
+            padding: 10px 20px;
+            border-radius: 12px;
+            border: 1px solid var(--primary-teal); 
+            display: flex; align-items: center; gap: 10px;
+            box-shadow: 0 10px 20px rgba(0,0,0,0.5);
+            animation: float 3s ease-in-out infinite;
+            z-index: 2;
+        }
+        .badge-ui { top: 20%; left: -20px; }
+        .badge-code { bottom: 20%; right: -20px; animation-delay: 1.5s; }
+        @keyframes float { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(-10px); } }
+
+        /* --- 8. CARDS & GRID --- */
+        .card-glass {
+            background: rgba(30, 41, 59, 0.4);
+            backdrop-filter: blur(12px);
+            border: 1px solid rgba(255, 255, 255, 0.03);
+            border-radius: 16px; padding: 2rem; transition: all 0.4s ease; height: 100%;
+        }
+        .card-glass:hover {
+            transform: translateY(-10px);
+            background: rgba(30, 41, 59, 0.6);
+            border-color: var(--primary-teal);
+        }
+        .icon-box {
+            width: 60px; height: 60px; background: rgba(45, 212, 191, 0.1);
+            color: var(--primary-teal); border-radius: 12px; display: flex;
+            align-items: center; justify-content: center; font-size: 1.8rem; margin-bottom: 1.5rem;
+        }
+
+        .project-card {
+            border-radius: 16px; overflow: hidden; position: relative;
+            border: 1px solid rgba(255,255,255,0.05); background: var(--bg-surface);
+            transition: transform 0.3s;
+        }
+        .project-card:hover { transform: scale(1.02); border-color: var(--primary-teal); }
+        .project-img-wrapper { height: 250px; overflow: hidden; }
+        .project-img-wrapper img { width: 100%; height: 100%; object-fit: cover; transition: transform 0.5s; }
+        .project-card:hover .project-img-wrapper img { transform: scale(1.1); }
+
+        footer { border-top: 1px solid rgba(255,255,255,0.05); background: var(--bg-body); padding: 5rem 0 2rem; }
+    </style>
+</head>
+<body data-bs-spy="scroll" data-bs-target="#mainNavbar" data-bs-offset="100">
+
+    <div class="ambient-glow glow-1"></div>
+    <div class="ambient-glow glow-2"></div>
+
+    <nav class="navbar navbar-expand-lg fixed-top" id="mainNavbar">
+        <div class="container justify-content-end">
+            <button class="navbar-toggler shadow-none border-0" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+                <i class="fas fa-bars text-light fs-3"></i>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav ms-auto align-items-center">
+                    <li class="nav-item"><a class="nav-link active" href="#home">Home</a></li>
+                    <li class="nav-item"><a class="nav-link" href="#about">About</a></li>
+                    <li class="nav-item"><a class="nav-link" href="#services">Services</a></li>
+                    <li class="nav-item"><a class="nav-link" href="#projects">Work</a></li>
+                    <li class="nav-item"><a class="nav-link" href="#contact">Contact</a></li>
+                    <li class="nav-item ms-lg-3 mt-3 mt-lg-0">
+                        <a href="#contact" class="btn btn-primary w-100 w-lg-auto">Hire Me</a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+    <section id="home" class="d-flex align-items-center" style="min-height: 100vh; padding-top: 80px;">
+        <div class="container">
+            <div class="row align-items-center g-5">
+                <div class="col-lg-6 order-2 order-lg-1 text-center text-lg-start" data-aos="fade-right" data-aos-duration="1000">
+                    <h3 class="h4 text-teal mb-3">Hello, I'm</h3>
+                    <h1 class="display-3 mb-3">ABDUL MOIZ GHANI</h1>
+                    <h4 class="h3 text-muted mb-4">Creative <span class="text-white">UI/UX Designer</span> & Developer</h4>
+                    <p class="lead text-muted mb-5">
+                        I craft high-performance digital experiences that blend aesthetics with functionality. 
+                        Specializing in modern web interfaces, user-centric design, and clean code.
+                    </p>
+                    <div class="d-flex gap-3 justify-content-center justify-content-lg-start">
+                        <a href="#projects" class="btn btn-primary">View My Work</a>
+                        <a href="#contact" class="btn btn-outline-light rounded-pill px-4 py-2">Contact Me</a>
+                    </div>
+                    <div class="mt-5 pt-3 border-top border-secondary border-opacity-25">
+                        <p class="small text-muted mb-2">Follow me on:</p>
+                        <div class="d-flex gap-3 justify-content-center justify-content-lg-start fs-5">
+                            <a href="#" class="text-muted hover-teal"><i class="fab fa-github"></i></a>
+                            <a href="#" class="text-muted hover-teal"><i class="fab fa-linkedin"></i></a>
+                            <a href="#" class="text-muted hover-teal"><i class="fab fa-dribbble"></i></a>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="col-lg-6 order-1 order-lg-2 d-none d-lg-block" data-aos="fade-left" data-aos-duration="1000">
+                    <div class="position-relative z-1">
+                        <div class="hexagon-outer">
+                            <div class="hexagon-inner">
+                                <img src="https://placehold.co/600x700/1e293b/2dd4bf?text=Moiz+Ghani" alt="Abdul Moiz">
+                            </div>
+                        </div>
+                        
+                        <div class="floating-badge badge-ui text-white">
+                            <i class="fas fa-palette text-teal"></i> <span>UI Design</span>
+                        </div>
+                        <div class="floating-badge badge-code text-white">
+                            <i class="fas fa-code text-teal"></i> <span>Frontend</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section id="about" class="py-5">
+        <div class="container py-5">
+            <div class="row align-items-center g-5">
+                <div class="col-lg-6" data-aos="fade-up" data-aos-duration="800">
+                    <div class="position-relative">
+                        <img src="https://placehold.co/800x500/1e293b/2dd4bf?text=University+Life" class="img-fluid rounded-4 shadow-lg border border-secondary border-opacity-25" alt="About Me">
+                    </div>
+                </div>
+                <div class="col-lg-6" data-aos="fade-up" data-aos-duration="1000">
+                    <h6 class="text-teal text-uppercase letter-spacing-2 mb-3">Who I Am</h6>
+                    <h2 class="display-5 mb-4">Bridging the gap between <br>Design & Engineering</h2>
+                    <p class="text-muted mb-4">
+                        I am a Computer Science student at <strong class="text-white">Karachi University (UBIT)</strong>. 
+                        I combine my technical background with a passion for design to create software that looks as good as it performs.
+                    </p>
+                    <div class="row g-4 mb-4">
+                        <div class="col-6">
+                            <div class="d-flex align-items-center gap-3">
+                                <i class="fas fa-check-circle text-teal fs-4"></i>
+                                <div>
+                                    <h5 class="mb-0">Figma</h5>
+                                    <small class="text-muted">Prototyping</small>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-6">
+                            <div class="d-flex align-items-center gap-3">
+                                <i class="fas fa-check-circle text-teal fs-4"></i>
+                                <div>
+                                    <h5 class="mb-0">React.js</h5>
+                                    <small class="text-muted">Development</small>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section id="services" class="py-5">
+        <div class="container py-5">
+            <div class="text-center mb-5" data-aos="fade-down">
+                <h6 class="text-teal text-uppercase letter-spacing-2 mb-2">What I Do</h6>
+                <h2 class="display-5 fw-bold">My Expertise</h2>
+            </div>
+
+            <div class="row g-4">
+                <div class="col-md-6 col-lg-4" data-aos="fade-up" data-aos-delay="0">
+                    <div class="card-glass text-center">
+                        <div class="icon-box mx-auto"><i class="fas fa-layer-group"></i></div>
+                        <h3 class="h4 mb-3 text-white">UI/UX Design</h3>
+                        <p class="text-muted">Creating intuitive interfaces that prioritize user experience and accessibility.</p>
+                    </div>
+                </div>
+                <div class="col-md-6 col-lg-4" data-aos="fade-up" data-aos-delay="100">
+                    <div class="card-glass text-center">
+                        <div class="icon-box mx-auto"><i class="fas fa-code"></i></div>
+                        <h3 class="h4 mb-3 text-white">Web Development</h3>
+                        <p class="text-muted">Building responsive, fast, and SEO-friendly websites using modern technologies.</p>
+                    </div>
+                </div>
+                <div class="col-md-6 col-lg-4" data-aos="fade-up" data-aos-delay="200">
+                    <div class="card-glass text-center">
+                        <div class="icon-box mx-auto"><i class="fas fa-pen-nib"></i></div>
+                        <h3 class="h4 mb-3 text-white">Logo Design</h3>
+                        <p class="text-muted">Crafting unique brand identities that help businesses stand out in a crowded market.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section id="projects" class="py-5 bg-opacity-10 bg-white">
+        <div class="container py-5">
+            <div class="text-center mb-5" data-aos="fade-down">
+                <h6 class="text-teal text-uppercase letter-spacing-2 mb-2">Portfolio</h6>
+                <h2 class="display-5 fw-bold">Selected Work</h2>
+            </div>
+
+            <div class="row g-4" id="projectsGrid">
+                <div class="col-md-4" data-aos="zoom-in">
+                    <div class="project-card h-100">
+                        <div class="project-img-wrapper">
+                            <img src="https://placehold.co/600x400/1e293b/2dd4bf?text=Fintech+App" alt="Project 1">
+                        </div>
+                        <div class="p-4">
+                            <div class="d-flex gap-2 mb-3">
+                                <span class="badge bg-dark text-teal border border-secondary">UI Design</span>
+                                <span class="badge bg-dark text-light border border-secondary">Figma</span>
+                            </div>
+                            <h4 class="h5 text-white mb-2">Fintech Dashboard</h4>
+                            <p class="text-muted small mb-0">A modern dashboard for tracking finances with dark mode support.</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-4" data-aos="zoom-in" data-aos-delay="100">
+                    <div class="project-card h-100">
+                        <div class="project-img-wrapper">
+                            <img src="https://placehold.co/600x400/1e293b/2dd4bf?text=E-Commerce" alt="Project 2">
+                        </div>
+                        <div class="p-4">
+                            <div class="d-flex gap-2 mb-3">
+                                <span class="badge bg-dark text-teal border border-secondary">Development</span>
+                                <span class="badge bg-dark text-light border border-secondary">React</span>
+                            </div>
+                            <h4 class="h5 text-white mb-2">Neon Shop</h4>
+                            <p class="text-muted small mb-0">Full-stack e-commerce platform with a neon aesthetic.</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-4" data-aos="zoom-in" data-aos-delay="200">
+                    <div class="project-card h-100">
+                        <div class="project-img-wrapper">
+                            <img src="https://placehold.co/600x400/1e293b/2dd4bf?text=Portfolio" alt="Project 3">
+                        </div>
+                        <div class="p-4">
+                            <div class="d-flex gap-2 mb-3">
+                                <span class="badge bg-dark text-teal border border-secondary">Branding</span>
+                                <span class="badge bg-dark text-light border border-secondary">Identity</span>
+                            </div>
+                            <h4 class="h5 text-white mb-2">Agency Rebrand</h4>
+                            <p class="text-muted small mb-0">Complete visual identity overhaul for a digital agency.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="row g-4 mt-1 d-none" id="hiddenProjects">
+                <div class="col-md-4" data-aos="zoom-in">
+                    <div class="project-card h-100">
+                        <div class="project-img-wrapper">
+                            <img src="https://placehold.co/600x400/1e293b/2dd4bf?text=Dummy+Project" alt="Project 4">
+                        </div>
+                        <div class="p-4">
+                            <div class="d-flex gap-2 mb-3">
+                                <span class="badge bg-dark text-teal border border-secondary">Full Stack</span>
+                                <span class="badge bg-dark text-light border border-secondary">NodeJS</span>
+                            </div>
+                            <h4 class="h5 text-white mb-2">Travel API System</h4>
+                            <p class="text-muted small mb-0">A robust backend API for travel booking applications.</p>
+                        </div>
+                    </div>
+                </div>
+                 <div class="col-md-4" data-aos="zoom-in" data-aos-delay="100">
+                    <div class="project-card h-100">
+                        <div class="project-img-wrapper">
+                            <img src="https://placehold.co/600x400/1e293b/2dd4bf?text=Mobile+App" alt="Project 5">
+                        </div>
+                        <div class="p-4">
+                            <div class="d-flex gap-2 mb-3">
+                                <span class="badge bg-dark text-teal border border-secondary">Mobile</span>
+                                <span class="badge bg-dark text-light border border-secondary">Flutter</span>
+                            </div>
+                            <h4 class="h5 text-white mb-2">Fitness Tracker</h4>
+                            <p class="text-muted small mb-0">Cross-platform mobile application for tracking daily workouts.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="row mt-5" data-aos="fade-up">
+                <div class="col-12 text-center">
+                    <button id="viewMoreBtn" class="btn btn-primary btn-lg px-5">
+                        View All Projects <i class="fas fa-arrow-down ms-2"></i>
+                    </button>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <footer id="contact">
+        <div class="container">
+            <div class="row g-5">
+                <div class="col-lg-6" data-aos="fade-right">
+                    <h3 class="display-6 text-white mb-3">Let's work together</h3>
+                    <p class="text-muted mb-5">
+                        I am currently available for freelance work and internships. 
+                        Drop me a line if you want to discuss a project or just say hi.
+                    </p>
+                    
+                    <div class="d-flex flex-column gap-4">
+                        <div class="d-flex gap-3 align-items-start">
+                            <div class="icon-box mb-0" style="width: 50px; height: 50px; font-size: 1.2rem;"><i class="fas fa-envelope"></i></div>
+                            <div>
+                                <h5 class="text-white mb-1">Email</h5>
+                                <p class="text-muted mb-0">abdulmoizghani0@gmail.com</p>
+                            </div>
+                        </div>
+                        <div class="d-flex gap-3 align-items-start">
+                            <div class="icon-box mb-0" style="width: 50px; height: 50px; font-size: 1.2rem;"><i class="fas fa-phone"></i></div>
+                            <div>
+                                <h5 class="text-white mb-1">Phone</h5>
+                                <p class="text-muted mb-0">+92 315 292 3957</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="d-flex gap-3 mt-5">
+                        <a href="#" class="btn btn-outline-light rounded-circle p-0 d-flex align-items-center justify-content-center" style="width: 45px; height: 45px;"><i class="fab fa-twitter"></i></a>
+                        <a href="#" class="btn btn-outline-light rounded-circle p-0 d-flex align-items-center justify-content-center" style="width: 45px; height: 45px;"><i class="fab fa-linkedin-in"></i></a>
+                        <a href="#" class="btn btn-outline-light rounded-circle p-0 d-flex align-items-center justify-content-center" style="width: 45px; height: 45px;"><i class="fab fa-instagram"></i></a>
+                    </div>
+                </div>
+
+                <div class="col-lg-6" data-aos="fade-left">
+                    <div class="card-glass p-4 p-md-5">
+                        <h4 class="text-white mb-4">Send a Message</h4>
+                        <form>
+                            <div class="row g-3">
+                                <div class="col-md-6">
+                                    <div class="form-floating">
+                                        <input type="text" class="form-control" id="name" placeholder="Name">
+                                        <label for="name" class="text-muted">Your Name</label>
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="form-floating">
+                                        <input type="email" class="form-control" id="email" placeholder="Email">
+                                        <label for="email" class="text-muted">Your Email</label>
+                                    </div>
+                                </div>
+                                <div class="col-12">
+                                    <div class="form-floating">
+                                        <input type="text" class="form-control" id="subject" placeholder="Subject">
+                                        <label for="subject" class="text-muted">Subject</label>
+                                    </div>
+                                </div>
+                                <div class="col-12">
+                                    <div class="form-floating">
+                                        <textarea class="form-control" placeholder="Message" id="message" style="height: 150px"></textarea>
+                                        <label for="message" class="text-muted">Tell me about your project</label>
+                                    </div>
+                                </div>
+                                <div class="col-12 mt-4">
+                                    <button type="submit" class="btn btn-primary w-100 py-3">Send Message <i class="fas fa-paper-plane ms-2"></i></button>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="border-top border-secondary border-opacity-25 mt-5 pt-4 text-center text-muted">
+                <p class="mb-0">&copy; 2025 Abdul Moiz Ghani. All rights reserved.</p>
+            </div>
+        </div>
+    </footer>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
+    
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            // Initialize Animation
+            AOS.init({ once: true, offset: 100, duration: 800 });
+
+            // Navbar Scroll Effect
+            const navbar = document.getElementById('mainNavbar');
+            window.addEventListener('scroll', () => {
+                if (window.scrollY > 50) {
+                    navbar.classList.add('scrolled');
+                } else {
+                    navbar.classList.remove('scrolled');
+                }
+            });
+
+            // Close mobile menu on click
+            const navLinks = document.querySelectorAll('.nav-link');
+            const menuToggle = document.getElementById('navbarNav');
+            const bsCollapse = new bootstrap.Collapse(menuToggle, {toggle: false});
+            
+            navLinks.forEach((l) => {
+                l.addEventListener('click', () => {
+                    if(menuToggle.classList.contains('show')) {
+                        bsCollapse.hide();
+                    }
+                });
+            });
+
+            // View All Projects Functionality
+            const viewMoreBtn = document.getElementById('viewMoreBtn');
+            const hiddenProjects = document.getElementById('hiddenProjects');
+            
+            viewMoreBtn.addEventListener('click', () => {
+                if (hiddenProjects.classList.contains('d-none')) {
+                    hiddenProjects.classList.remove('d-none');
+                    // Fade in effect logic if wanted, or just remove class
+                    hiddenProjects.classList.add('fade-in-up'); 
+                    viewMoreBtn.innerHTML = 'Show Less <i class="fas fa-arrow-up ms-2"></i>';
+                } else {
+                    hiddenProjects.classList.add('d-none');
+                    viewMoreBtn.innerHTML = 'View All Projects <i class="fas fa-arrow-down ms-2"></i>';
+                    // Smooth scroll back to projects top if needed
+                    document.getElementById('projects').scrollIntoView({behavior: 'smooth'});
+                }
+            });
+        });
+    </script>
+</body>
+</html>
